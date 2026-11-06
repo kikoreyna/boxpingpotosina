@@ -13,6 +13,30 @@
     </div>
 </div>
 
+<?php if( $open_tasks ): ?>
+<div class="alert alert-warning small py-2">
+    <i class="fas fa-tasks"></i> Tareas pendientes de revisión:
+    <ul class="mb-0">
+        <?php foreach($open_tasks as $open_task): ?>
+        <li><strong><?= $open_task->usuario_nombre ?></strong> — <?= htmlspecialchars($open_task->descripcion) ?></li>
+        <?php endforeach ?>
+    </ul>
+</div>
+<?php endif ?>
+<?php if( $user_type === 'administrador' && $documenters ): ?>
+<form action="<?= url('tareas/guardar') ?>" method="post" class="form-inline mb-3">
+    <input type="hidden" name="entrada" value="<?= $entry->numero ?>">
+    <select name="documentador" class="form-control form-control-sm mr-2" required>
+        <option value="" disabled selected>Asignar a documentador...</option>
+        <?php foreach($documenters as $documenter): ?>
+        <option value="<?= $documenter->id ?>"><?= $documenter->nombre ?></option>
+        <?php endforeach ?>
+    </select>
+    <input type="text" name="descripcion" maxlength="255" class="form-control form-control-sm mr-2" placeholder="Necesidad / tarea" required>
+    <button type="submit" class="btn btn-success btn-sm">Asignar tarea</button>
+</form>
+<?php endif ?>
+
 <div class="row">
 
     <!-- ENTRADA -->

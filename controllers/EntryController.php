@@ -427,13 +427,18 @@ class EntryController extends \System\Core\Controller
         $stages = config('stages');
         $user_type = session_get('user','type');
 
+        $open_tasks = (new \Models\Task)->openForEntry($entry->id);
+        $documenters = $user_type === 'administrador' ? (new User)->where('tipo', '=', 'documentador') : [];
+
         return view('entry/show', compact(
             'entry',
             'measures',
             'wayout',
             'dropOffStage',
             'stages',
-            'user_type'
+            'user_type',
+            'open_tasks',
+            'documenters'
         ));
     }
 

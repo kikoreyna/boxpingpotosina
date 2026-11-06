@@ -111,6 +111,12 @@ return [
     'vehiculos/borrar/' => 'CarController:erase',
     'vehiculos/eliminar/' => 'CarController:deleteSoft',
     
+    // Tareas
+    'tareas' => 'TaskController:index',
+    'tareas/guardar' => 'TaskController:store',
+    'tareas/completar/' => 'TaskController:complete',
+    'tareas/eliminar/' => 'TaskController:delete',
+
     // Usuarios
     'usuarios' => 'UserController:index',  
     'usuarios/nuevo' => 'UserController:create',  

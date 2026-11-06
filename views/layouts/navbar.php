@@ -33,6 +33,9 @@
         <a href="<?= url('reempaque') ?>" class="nav-link">Reempaque</a>
       </li>
       <li class="nav-item">
+        <a href="<?= url('tareas') ?>" class="nav-link">Tareas</a>
+      </li>
+      <li class="nav-item">
         <a href="<?= url('cruce') ?>" class="nav-link">Cruce</a>
       </li>
 

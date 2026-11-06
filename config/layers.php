@@ -13,6 +13,7 @@ return [
     'RepackageController'    => 'RepackageLayer',
     'RepackagedController'   => 'RepackagedLayer',
     'SearchController'       => 'SearchLayer',
+    'TaskController'         => 'TaskLayer',
     'UserController'         => 'UserLayer',
     'WarehouseController'    => 'WarehouseLayer',
     'WayoutController'       => 'WayoutLayer',
