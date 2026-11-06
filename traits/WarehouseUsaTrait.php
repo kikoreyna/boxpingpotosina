@@ -7,7 +7,8 @@ trait WarehouseUsaTrait
 {
     private function usa_index($coming)
     {
-        return view('warehouse/usa/index');
+        $mode = session_get('bodega_modo') === 'escaneo' ? 'escaneo' : 'medidas';
+        return view('warehouse/usa/index', compact('mode'));
     }
 
     private function usa_register($column, $coming = 'entrada')
@@ -22,12 +23,21 @@ trait WarehouseUsaTrait
             return false;
         }
 
+        $scan_only = $this->request->get('modo') === 'escaneo';
+        session_set('bodega_modo', $scan_only ? 'escaneo' : 'medidas');
+
         if( is_array($registered_entry) )
         {
-            $redirect = "bodega/seleccionar/{$this->request->get('numero')}/entrada";
+            $query = ['modo' => $scan_only ? 'escaneo' : 'medidas'];
             if( !$this->request->isEmpty('observaciones') )
-                $redirect .= "?observaciones={$this->request->get('observaciones')}";
-            return $redirect;
+                $query['observaciones'] = $this->request->get('observaciones');
+            return "bodega/seleccionar/{$this->request->get('numero')}/entrada?" . http_build_query($query);
+        }
+
+        if( $scan_only )
+        {
+            $this->message(['success', "Guia <b>{$registered_entry->numero}</b> registrada como recibida"]);
+            return 'bodega/entrada';
         }
 
         $this->message(['success', 'Numero de guia registrada']);
@@ -38,8 +48,9 @@ trait WarehouseUsaTrait
     private function usa_choose($number, $coming, $entries)
     {
         $observations = $this->request->has('observaciones', 'get') ? $this->request->get('observaciones', 'get') : false;
+        $mode = $this->request->get('modo', 'get') === 'escaneo' ? 'escaneo' : 'medidas';
         
-        return view('warehouse/usa/choose', compact('number','coming','entries','observations'));
+        return view('warehouse/usa/choose', compact('number','coming','entries','observations','mode'));
     }
 
     private function usa_takeMeasures($entry, $measures_types, $coming)

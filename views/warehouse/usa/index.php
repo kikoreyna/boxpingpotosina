@@ -8,6 +8,17 @@
     <div class="card-body">
         <form id="frm-registrar" action="<?= url('bodega/registrar/numero/entrada') ?>" method="post" autocomplete="off">
             <div class="form-group">
+                <label class="d-block">Tipo de entrada</label>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="modo-medidas" name="modo" value="medidas" class="custom-control-input" <?= $mode === 'medidas' ? 'checked' : '' ?>>
+                    <label class="custom-control-label" for="modo-medidas">Con peso y medidas</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="modo-escaneo" name="modo" value="escaneo" class="custom-control-input" <?= $mode === 'escaneo' ? 'checked' : '' ?>>
+                    <label class="custom-control-label" for="modo-escaneo">Solo escanear (recibido)</label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label>Numero de guia</label>
                 <input type="text" class="form-control" name="numero" autofocus required>
             </div>

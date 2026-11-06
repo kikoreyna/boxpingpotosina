@@ -26,6 +26,7 @@
     </div>
 
     <form action="<?= url('bodega/registrar/id/entrada') ?>" id="frm-registro-entrada" method="post">
+        <input type="hidden" name="modo" value="<?= $mode ?>">
         <?php if( $observations ): ?>
         <input type="hidden" name="observaciones" value="<?= $observations ?>">
         <?php endif ?>
