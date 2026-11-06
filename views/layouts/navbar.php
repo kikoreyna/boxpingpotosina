@@ -13,7 +13,13 @@
   </button>
   <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
     <ul class="navbar-nav small">
-      <?php if( $session_type === 'administrador' || $session_type === 'documentador' ): ?>
+      <?php if( $session_type === 'cliente' ): ?>
+      <li class="nav-item">
+        <a href="<?= url('cliente') ?>" class="nav-link">Mis guías y consolidados</a>
+      </li>
+      <?php endif ?>
+
+      <?php if( is_admin() || $session_type === 'documentador' ): ?>
       <li class="nav-item">
         <a href="<?= url('consolidados') ?>" class="nav-link">Consolidados</a>
       </li>
@@ -39,7 +45,7 @@
         <a href="<?= url('cruce') ?>" class="nav-link">Cruce</a>
       </li>
 
-      <?php if( $session_type === 'administrador'): ?>
+      <?php if( is_admin()): ?>
       <li class="nav-item">
         <a href="<?= url('usuarios') ?>" class="nav-link">Usuarios</a>
       </li>

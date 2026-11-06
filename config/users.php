@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'superadministrador',
     'administrador',
     'documentador',
     'bodega_usa',

@@ -70,7 +70,7 @@
                 <?php foreach($logs as $log): ?>
                 <tr>
                     <td class="pl-3 text-nowrap"><?= $log->created_at ?></td>
-                    <?php $badge = ['creacion' => 'success', 'edicion' => 'warning', 'eliminacion' => 'danger'][$log->accion] ?? 'secondary' ?>
+                    <?php $badge = ['creacion' => 'success', 'edicion' => 'warning', 'eliminacion' => 'danger', 'observacion' => 'info'][$log->accion] ?? 'secondary' ?>
                     <td><span class="badge badge-<?= $badge ?>"><?= $actions[$log->accion] ?? $log->accion ?></span></td>
                     <td><span class="badge badge-secondary"><?= $tables[$log->tabla] ?? $log->tabla ?></span></td>
                     <td>

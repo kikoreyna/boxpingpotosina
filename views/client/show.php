@@ -87,7 +87,7 @@
                     <?= $client->cliente_usuario_email ?>
                 </p>
 
-                    <?php if( $session_type === 'administrador' ): ?>
+                    <?php if( is_admin() ): ?>
                     <a href="<?= url('clientes/editar/credencial/'.$client->id) ?>" class="btn btn-warning">
                         <span>Editar</span>
                     </a>

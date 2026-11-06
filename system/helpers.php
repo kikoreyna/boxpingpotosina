@@ -1,5 +1,15 @@
 <?php // HELPERS
 
+function is_admin()
+{
+    return in_array(session_get('user', 'type'), ['administrador', 'superadministrador'], true);
+}
+
+function is_super_admin()
+{
+    return session_get('user', 'type') === 'superadministrador';
+}
+
 function home_url(array $arguments = null)
 {
     return System\Core\Url::getRoute('', $arguments);

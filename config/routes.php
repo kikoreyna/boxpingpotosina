@@ -11,6 +11,11 @@ return [
     'descargar/' => 'DashboardController:download',
     'buscar' => 'SearchController:index',
 
+    // Portal de clientes
+    'cliente' => 'ClientPortalController:index',
+    'cliente/consolidados/mostrar/' => 'ClientPortalController:showConsolidated',
+    'cliente/entradas/mostrar/' => 'ClientPortalController:showEntry',
+
     // Consolidados
     'consolidados' => 'ConsolidatedController:index',
     'consolidados/crear' => 'ConsolidatedController:create',

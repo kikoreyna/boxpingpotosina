@@ -23,7 +23,7 @@
     </ul>
 </div>
 <?php endif ?>
-<?php if( $user_type === 'administrador' && $documenters ): ?>
+<?php if( is_admin() && $documenters ): ?>
 <form action="<?= url('tareas/guardar') ?>" method="post" class="form-inline mb-3">
     <input type="hidden" name="entrada" value="<?= $entry->numero ?>">
     <select name="documentador" class="form-control form-control-sm mr-2" required>
@@ -498,7 +498,7 @@
     </div>
 </div>
 
-<?php if( $user_type === 'administrador' ): ?>
+<?php if( is_admin() ): ?>
 <p class="text-right mb-5">
     <a href="<?= url('entradas/advertencia_eliminar/'.$entry->id) ?>" class="text-danger text-decoration-none">
         <i class="fas fa-trash align-middle"></i>

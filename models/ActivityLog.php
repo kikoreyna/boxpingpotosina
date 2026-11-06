@@ -33,12 +33,19 @@ class ActivityLog
         'creacion'    => 'Creación',
         'edicion'     => 'Edición',
         'eliminacion' => 'Eliminación',
+        'observacion' => 'Observación',
     ];
 
     // Columnas que identifican el registro, en orden de preferencia (nunca contraseñas)
     const LABEL_COLUMNS = ['numero', 'nombre', 'codigo', 'alias', 'email', 'descripcion'];
 
-    const IGNORED_COLUMNS = ['updated_at', 'created_at'];
+    const IGNORED_COLUMNS = ['updated_at', 'created_at', 'observaciones'];
+
+    // Las observaciones se registran aparte, con su texto completo
+    static public function recordObservation($entry_id, $number, $text)
+    {
+        self::record('observacion', 'entradas', $entry_id, ['numero' => $number], (string) $text);
+    }
 
     static public function labels()
     {

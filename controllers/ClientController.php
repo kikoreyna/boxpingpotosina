@@ -151,7 +151,7 @@ class ClientController extends Controller {
     public function storeCredential($id = null)
     {
         $model = new Client;
-        if( !$client = $model->find($id) || !is_null($client->usuario_id) )
+        if( !($client = $model->find($id)) || !is_null($client->usuario_id) )
             return redirect('clientes');
 
         $this->validate($this->request->all(), [

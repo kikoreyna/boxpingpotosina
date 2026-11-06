@@ -4,6 +4,7 @@ return [
     'AuthController'         => 'AuthLayer',
     'CarController'          => 'CarLayer',
     'ClientController'       => 'ClientLayer',
+    'ClientPortalController' => 'ClientPortalLayer',
     'CoderController'        => 'CoderLayer',
     'ConsolidatedController' => 'ConsolidatedLayer',
     'CrossingController'     => 'CrossingLayer',

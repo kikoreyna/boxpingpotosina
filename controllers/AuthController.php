@@ -43,6 +43,9 @@ class AuthController extends \System\Core\Controller {
         if( $user_type === 'bodega_usa' || $user_type === 'bodega_mex' )
             return 'bodega/entrada';
 
+        if( $user_type === 'cliente' )
+            return 'cliente';
+
         return 'dashboard';
     }
 

@@ -109,7 +109,17 @@ class WarehouseController extends Controller
     private function updateEntry($patch, $model_entry, $entry)
     {
         $data = $this->prepareDataToSaveEntry($patch, $entry);
-        return $model_entry->update($data, $entry->id) ? $entry : false;
+        if(! $model_entry->update($data, $entry->id) )
+            return false;
+
+        $this->logObservation($patch, $entry->id, $entry->numero);
+        return $entry;
+    }
+
+    private function logObservation($post, $entry_id, $number)
+    {
+        if( isset($post['observaciones']) && trim($post['observaciones']) !== '' )
+            \Models\ActivityLog::recordObservation($entry_id, $number, $post['observaciones']);
     }
 
     private function storeEntry($post, $model_entry)
@@ -117,6 +127,8 @@ class WarehouseController extends Controller
         $data = $this->prepareDataToSaveEntry($post);
         if(! $entry_id = $model_entry->store($data) )
             return false;
+
+        $this->logObservation($post, $entry_id, $post['numero']);
 
         $model_measure = new Measure;
         $model_measure->storeMeasures([], $entry_id, $this->session);

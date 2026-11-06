@@ -118,7 +118,7 @@ class TaskController extends Controller {
 
     private function isAdmin()
     {
-        return session_get('user', 'type') === 'administrador';
+        return is_admin();
     }
 
     private function documenters()

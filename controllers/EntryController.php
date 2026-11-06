@@ -15,6 +15,7 @@ use Models\Repacker;
 use Models\User;
 use Models\Consolidated;
 use Models\DropOffStage;
+use Models\ActivityLog;
 
 use Ddeboer\DataImport\Reader\CsvReader;
 use League\Csv\Reader;
@@ -428,7 +429,7 @@ class EntryController extends \System\Core\Controller
         $user_type = session_get('user','type');
 
         $open_tasks = (new \Models\Task)->openForEntry($entry->id);
-        $documenters = $user_type === 'administrador' ? (new User)->where('tipo', '=', 'documentador') : [];
+        $documenters = is_admin() ? (new User)->where('tipo', '=', 'documentador') : [];
 
         return view('entry/show', compact(
             'entry',
@@ -553,7 +554,11 @@ class EntryController extends \System\Core\Controller
         ]);
 
         $observations = $this->prepareDataToUpdateObservations($this->request->all(), $entry);
-        $msg = $model->update(['observaciones' => json_encode($observations)], $entry->id)
+        $saved = $model->update(['observaciones' => json_encode($observations)], $entry->id);
+        if( $saved )
+            ActivityLog::recordObservation($entry->id, $entry->numero, $this->request->get('observacion'));
+
+        $msg = $saved
              ? ['success', 'Nueva observacion guardada']
              : ['danger', 'Error al guardar nueva observacion'];
         $this->message($msg);
@@ -593,6 +598,8 @@ class EntryController extends \System\Core\Controller
             ]);
             die;
         }
+
+        ActivityLog::recordObservation($entry->id, $entry->numero, $this->request->get('observacion'));
 
         echo json_encode([
             'status'  => 'success', 

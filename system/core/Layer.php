@@ -9,9 +9,17 @@ abstract class Layer implements iLayer
         if( $signed = session_exists('user') )
         {
             if( !is_null($type) )
-                $signed = session_get('user', 'type') === $type;
+                $signed = in_array(session_get('user', 'type'), self::expand([$type]), true);
         }
         return $signed;
+    }
+
+    // El superadministrador tiene todos los permisos del administrador
+    static private function expand(array $types)
+    {
+        if( in_array('administrador', $types, true) )
+            $types[] = 'superadministrador';
+        return $types;
     }
 
     static public function unsigned($type = null)
@@ -22,7 +30,7 @@ abstract class Layer implements iLayer
     static public function only(array $only)
     {
         $type = session_get('user', 'type');
-        $matched = array_filter($only, function($i) use ($type) {
+        $matched = array_filter(self::expand($only), function($i) use ($type) {
             return $i === $type;
         });
         return $matched;

@@ -17,6 +17,11 @@ class Xarvis {
         $route_controller = $this->route->getController();
         $layers = config('layers');
 
+        // El cliente solo puede usar su portal; cualquier otro controlador se le bloquea
+        if( session_get('user', 'type') === 'cliente'
+            && !in_array($route_controller, ['ClientPortalController', 'AuthController'], true) )
+            return redirect('cliente');
+
         if( array_key_exists($route_controller, $layers) )
         {
             $layer_name = $layers[ $route_controller ];
