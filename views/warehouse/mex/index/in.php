@@ -37,6 +37,19 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="bodega">Bodega donde se da la entrada</label>
+                <select name="bodega" id="bodega" class="form-control" required>
+                    <option selected disabled></option>
+                    <?php foreach($crossing['depots'] as $depot): ?>
+                    <?php $selected = $depot->id == $crossing['depot_selected'] ? 'selected' : '' ?>
+                    <option value="<?= $depot->id ?>" <?= $selected ?>><?= htmlspecialchars($depot->nombre) ?></option>
+                    <?php endforeach ?>
+                </select>
+                <?php if( !$crossing['depots'] ): ?>
+                <small class="text-danger">No hay bodegas registradas. Pide al administrador que las dé de alta.</small>
+                <?php endif ?>
+            </div>
+            <div class="form-group">
                 <label>Numero de guia</label>
                 <input type="text" class="form-control" name="numero" autofocus required>
             </div>

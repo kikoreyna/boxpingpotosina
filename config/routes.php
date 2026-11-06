@@ -110,6 +110,13 @@ return [
     'conductores/editar/' => 'DriverController:edit',
     'conductores/actualizar/' => 'DriverController:update',
 
+    // Bodegas MEX (catalogo)
+    'almacenes' => 'DepotController:index',
+    'almacenes/guardar' => 'DepotController:store',
+    'almacenes/editar/' => 'DepotController:edit',
+    'almacenes/actualizar/' => 'DepotController:update',
+    'almacenes/eliminar/' => 'DepotController:delete',
+
     // Vehiculos
     'vehiculos/nuevo' => 'CarController:create',
     'vehiculos/guardar' => 'CarController:store',

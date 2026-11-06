@@ -5,6 +5,7 @@ return [
     'CarController'          => 'CarLayer',
     'ClientController'       => 'ClientLayer',
     'ClientPortalController' => 'ClientPortalLayer',
+    'DepotController'        => 'DepotLayer',
     'CoderController'        => 'CoderLayer',
     'ConsolidatedController' => 'ConsolidatedLayer',
     'CrossingController'     => 'CrossingLayer',

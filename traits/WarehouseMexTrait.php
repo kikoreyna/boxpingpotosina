@@ -4,12 +4,15 @@ use Models\Measure;
 use Models\Entry;
 use Models\Driver;
 use Models\Car;
+use Models\Depot;
 
 trait WarehouseMexTrait
 {
     private function mex_index($coming)
     {
         $crossing = $this->mex_getCrossingIndexIn(new Driver, new Car);
+        $crossing['depots'] = (new Depot)->availables('ASC');
+        $crossing['depot_selected'] = $this->request->has('bodega', 'get') ? $this->request->get('bodega', 'get') : session_get('bodega_mex_id');
         
         $view = $coming !== 'salida' ? 'in' : 'out';
         
@@ -43,7 +46,15 @@ trait WarehouseMexTrait
             'conductor'      => 'required',
             'vehiculo'       => 'required',
             'numero_vuelta'  => 'required',
+            'bodega'         => 'required',
         ]);
+
+        if(! is_object((new Depot)->available($post['bodega'])) )
+        {
+            $this->message(['danger', 'Selecciona una bodega valida']);
+            return false;
+        }
+        session_set('bodega_mex_id', (int) $post['bodega']);
 
         if(! $registered_entry = $this->registerEntry($post, $column) )
         {
@@ -69,6 +80,8 @@ trait WarehouseMexTrait
 
             return $redirect;
         }
+
+        (new Entry)->update(['bodega_mex_id' => (int) $post['bodega']], $registered_entry->id);
 
         if( is_null($registered_entry->cruce_at) )
         {
@@ -119,6 +132,7 @@ trait WarehouseMexTrait
         $car = $this->request->has('vehiculo', 'get') ? $this->request->get('vehiculo', 'get') : false;
         $return_number = $this->request->has('numero_vuelta', 'get') ? $this->request->get('numero_vuelta', 'get') : false;
         $observations = $this->request->has('observaciones', 'get') ? $this->request->get('observaciones', 'get') : false;
+        $depot = session_get('bodega_mex_id');
         
         return view('warehouse/mex/choose', compact(
             'number',
@@ -127,7 +141,8 @@ trait WarehouseMexTrait
             'driver',
             'car',
             'return_number',
-            'observations'
+            'observations',
+            'depot'
             )
         );
     }
@@ -158,6 +173,21 @@ trait WarehouseMexTrait
         
         $view = $coming !== 'salida' ? 'in' : 'out';
         
-        return view("warehouse/mex/take_measures/{$view}", compact('entry','measure_entry_mex','measures_types','coming', 'go_home'));
+        $info = $this->mex_entryInfo($entry->id);
+        return view("warehouse/mex/take_measures/{$view}", compact('entry','measure_entry_mex','measures_types','coming', 'go_home', 'info'));
+    }
+
+    // Datos de consulta para que bodega MEX identifique la guia al escanearla
+    private function mex_entryInfo($entry_id)
+    {
+        $rows = (new Entry)->withRelations($entry_id);
+        $full = array_pop($rows);
+
+        $previous_stages = ['cliente', 'bodega_usa'];
+        $measures = array_values(array_filter((new Measure)->withRelations($entry_id, 'entrada_id'), function ($m) use ($previous_stages) {
+            return in_array($m->etapa, $previous_stages, true);
+        }));
+
+        return ['entry' => $full, 'measures' => $measures];
     }
 }

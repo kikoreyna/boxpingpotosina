@@ -36,6 +36,14 @@
         <?php if( $observations ): ?>
         <input type="hidden" name="observaciones" value="<?= $observations ?>">
         <?php endif ?>
+
+        <?php if( $return_number ): ?>
+        <input type="hidden" name="numero_vuelta" value="<?= $return_number ?>">
+        <?php endif ?>
+
+        <?php if( $depot ): ?>
+        <input type="hidden" name="bodega" value="<?= $depot ?>">
+        <?php endif ?>
     </form>
 
     <div class="table-responsive">

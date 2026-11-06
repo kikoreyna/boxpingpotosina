@@ -47,6 +47,9 @@
 
       <?php if( is_admin()): ?>
       <li class="nav-item">
+        <a href="<?= url('almacenes') ?>" class="nav-link">Bodegas MEX</a>
+      </li>
+      <li class="nav-item">
         <a href="<?= url('usuarios') ?>" class="nav-link">Usuarios</a>
       </li>
       <li class="nav-item">

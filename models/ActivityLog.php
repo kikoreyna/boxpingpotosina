@@ -19,6 +19,7 @@ class ActivityLog
         'conductores'             => 'Conductor',
         'vehiculos'               => 'Vehículo',
         'tareas'                  => 'Tarea',
+        'bodegas_mex'             => 'Bodega MEX',
     ];
 
     // Tablas que solo se auditan en ediciones/eliminaciones (partes de una entrada)

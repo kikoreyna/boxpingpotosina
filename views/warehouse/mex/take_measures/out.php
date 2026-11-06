@@ -1,6 +1,7 @@
 <?php $template->fill('content') ?>
 <?php $template->insert('partials/alert') ?>
 <?php $template->insert('partials/validation') ?>
+<?php $template->insert('partials/mex_entry_info', ['info' => $info, 'coming' => $coming]) ?>
 <div class="card mb-3">
     <div class="card-header">
         <span class="lead">Bodega MEX | <?= ucfirst($coming) ?></span>
