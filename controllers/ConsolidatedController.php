@@ -360,7 +360,7 @@ class ConsolidatedController extends Controller {
         foreach( $entries as $entry )
         {
             $rows[] = [
-                $entry->alias_cliente_numero ? stick($entry->cliente_alias, $entry->numero) : $entry->numero,
+                $entry->numero,
                 $entry->remitente_nombre, $entry->remitente_telefono, $entry->remitente_direccion,
                 $entry->remitente_postal, $entry->remitente_ciudad, $entry->remitente_estado, $entry->remitente_pais,
                 $entry->destinatario_nombre, $entry->destinatario_telefono, $entry->destinatario_direccion,
