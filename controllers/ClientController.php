@@ -177,7 +177,7 @@ class ClientController extends Controller {
         else
         {
             $msg = ['danger', 'Error al guardar credencial de usuario'];
-            $redirect = 'clientes/crear/usuario/'.$client->id;
+            $redirect = 'clientes/crear/credencial/'.$client->id;
         }
 
         $this->message($msg);

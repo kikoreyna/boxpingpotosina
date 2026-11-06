@@ -78,7 +78,9 @@ class ClientPortalController extends Controller {
                 r.ciudad AS remitente_ciudad, r.estado AS remitente_estado, r.pais AS remitente_pais,
                 a.nombre AS destinatario_nombre, a.telefono AS destinatario_telefono, a.direccion AS destinatario_direccion,
                 a.ciudad AS destinatario_ciudad, a.estado AS destinatario_estado, a.pais AS destinatario_pais,
-                wo.rastreo, wo.status, wo.confirmacion, t.nombre AS transportadora
+                wo.rastreo, wo.status, wo.confirmacion, wo.cobertura,
+                wo.direccion AS salida_direccion, wo.postal AS salida_postal, wo.ciudad AS salida_ciudad,
+                wo.estado AS salida_estado, wo.pais AS salida_pais, t.nombre AS transportadora
              FROM entradas e
              LEFT JOIN consolidados cs ON cs.id = e.consolidado_id
              LEFT JOIN entrada_remitente r ON r.entrada_id = e.id

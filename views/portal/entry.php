@@ -62,7 +62,15 @@ $place = function($p, $e) use ($h) {
             <div class="col-sm"><span class="text-muted d-block">Rastreo</span><?= $h($e->rastreo) ?></div>
             <div class="col-sm"><span class="text-muted d-block">Confirmación</span><?= $h($e->confirmacion) ?></div>
             <div class="col-sm"><span class="text-muted d-block">Estatus</span><?= $h($e->status) ?></div>
+            <div class="col-sm"><span class="text-muted d-block">Cobertura</span><?= ucfirst($h($e->cobertura)) ?></div>
         </div>
+        <?php if( $e->cobertura === 'ocurre' ): ?>
+        <div class="mt-3">
+            <span class="text-muted d-block">Dirección de ocurre</span>
+            <?= $h($e->salida_direccion) ?><?= $e->salida_postal ? ', C.P. '.$h($e->salida_postal) : '' ?><br>
+            <?= $h(implode(', ', array_filter([$e->salida_ciudad, $e->salida_estado, $e->salida_pais]))) ?>
+        </div>
+        <?php endif ?>
         <?php else: ?>
         <span class="text-muted">Aún sin guía de salida</span>
         <?php endif ?>

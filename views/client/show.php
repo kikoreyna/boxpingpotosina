@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm d-none">
+    <div class="col-sm">
         <div class="card border-0 bg-transparent text-center">
             <div class="card-header bg-transparent">
                 <span class="lead">Credencial de usuario</span>

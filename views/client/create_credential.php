@@ -5,7 +5,7 @@
   <p class="display-4">Credencial de usuario</p>
   <hr class="my-4">
   <p class="lead text-secondary">Cliente <b class="text-dark"><?= $client->nombre ?></b> tendra acceso a la aplicacion.</p>
-  <form action="<?= url('clientes/guardar/usuario/'.$client->id) ?>" method="post" class="row">
+  <form action="<?= url('clientes/guardar/credencial/'.$client->id) ?>" method="post" class="row">
     <div class="col-sm-4 offset-md-4">
         <div class="form-group">
             <?php if( !is_null($client->correo) ): ?>
