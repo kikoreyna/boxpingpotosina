@@ -5,8 +5,7 @@
 }*/
 @font-face {
     font-family: 'barcode39';
-    src: url('https://potosina.appboxping.com/assets/fonts/code39.ttf');
-    font-size: 8px;
+    src: url('../fonts/code39.ttf') format('truetype');
 }
 /*@font-face {
   font-family: 'Libre Barcode 39';

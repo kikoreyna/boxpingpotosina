@@ -23,7 +23,22 @@
         }
     </style>
 </head>
-<body class="" onload="window.print()">    
+<body class="">
     <?= $template->space('content') ?>
+    <script>
+        window.addEventListener('load', function () {
+            if (!document.querySelector('.barcode39') || !document.fonts) {
+                window.print();
+                return;
+            }
+
+            document.fonts.load('20pt barcode39').then(function (fonts) {
+                if (!fonts.length) throw new Error('No se pudo cargar la fuente del código de barras');
+                window.print();
+            }).catch(function () {
+                alert('No se pudo cargar el código de barras. Verifica la conexión y vuelve a intentar.');
+            });
+        });
+    </script>
 </body>
 </html>
