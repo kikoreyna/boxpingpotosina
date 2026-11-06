@@ -29,7 +29,7 @@
                                 <th class="border-0">EN BODEGA MEX</th>
                                 <th class="border-0">REEMPACADOS</th>
                                 <th class="border-0">PENDIENTES</th>
-                                <?php if( is_super_admin() ): ?><th class="border-0">SIN SALIDA</th><?php endif ?>
+                                <?php if( is_super_admin() ): ?><th class="border-0" title="Verificadas con salida y sin rastreo">SIN RASTREO</th><?php endif ?>
                                 <th class="border-0 d-none">SALIDA</th>
                                 
                             </tr>

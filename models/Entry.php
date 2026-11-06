@@ -197,7 +197,7 @@ class Entry extends Model
             array_push($query_filtered, " a.verificacion_at IS NULL");
 
         if( !empty($filters['no_wayout']) )
-            array_push($query_filtered, " wo.id IS NULL");
+            array_push($query_filtered, $this->withoutTrackingCondition());
 
         if( !empty($filters['no_exit_weighing']) )
             array_push($query_filtered, " NOT EXISTS (SELECT 1 FROM entrada_medidas AS m
@@ -271,8 +271,18 @@ class Entry extends Model
         $id = (int) $consolidated_id;
         $rows = $this->raw("SELECT COUNT(*) AS total FROM {$this->table} AS e
                             WHERE e.consolidado_id = {$id}
-                            AND NOT EXISTS (SELECT 1 FROM salidas AS wo WHERE wo.entrada_id = e.id)", true);
+                            AND " . $this->withoutTrackingCondition(), true);
         return (int) $rows[0]->total;
+    }
+
+    private function withoutTrackingCondition()
+    {
+        return "EXISTS (SELECT 1 FROM entrada_destinatario AS recipient
+                WHERE recipient.entrada_id = e.id AND recipient.verificacion_at IS NOT NULL)
+                AND EXISTS (SELECT 1 FROM salidas AS wayout WHERE wayout.entrada_id = e.id)
+                AND NOT EXISTS (SELECT 1 FROM salidas AS tracking
+                    WHERE tracking.entrada_id = e.id
+                    AND tracking.rastreo IS NOT NULL AND TRIM(tracking.rastreo) <> '')";
     }
 
     public function getWithDestinatarioWhereConsolidado($consolidado_id)
