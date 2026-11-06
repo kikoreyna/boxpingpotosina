@@ -193,6 +193,13 @@ class Entry extends Model
         if( !is_null($filters['incident']) && in_array($filters['incident'], $incidents) ) 
             array_push($query_filtered, " wo.incidente = '{$filters['incident']}'");
         
+        if( !empty($filters['verification']) )
+            array_push($query_filtered, " a.verificacion_at IS NULL");
+
+        if( !empty($filters['no_exit_weighing']) )
+            array_push($query_filtered, " NOT EXISTS (SELECT 1 FROM entrada_medidas AS m
+                WHERE m.entrada_id = e.id AND m.etapa = 'bodega_mex_salida' AND m.peso IS NOT NULL AND m.peso > 0)");
+
         $filter_string = " WHERE e.consolidado_id = {$consolidated_id} ";
         if( count($query_filtered) ) 
             $filter_string .= ' AND '.implode(' AND ', $query_filtered);

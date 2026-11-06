@@ -47,8 +47,8 @@ class ConsolidatedController extends Controller {
             'client' => $this->request->has('cliente', 'get') ? $this->request->get('cliente','get') : null,
             'from' => $this->request->has('desde', 'get') ? $this->request->get('desde','get') : date('Y-m-01'),
             'to' => $this->request->has('hasta', 'get') ? $this->request->get('hasta','get') : date('Y-m-d'),
-            'status' => $this->request->has('estatus', 'get') && in_array($this->request->get('estatus', 'get'), config('consolidated', 'status')) ? $this->request->get('estatus', 'get') : 'abierto',
-        ];
+            'status' => $this->request->has('estatus', 'get') && in_array($this->request->get('estatus', 'get'), config('consolidated', 'status')) ? $this->request->get('estatus', 'get') :             'abierto',
+                    ];
     }
 
     private function getInputs(Client $model_client, $filters)
@@ -154,6 +154,8 @@ class ConsolidatedController extends Controller {
             'repackaged' => $this->request->has('reempacado','get') ? $this->request->get('reempacado','get') : null,
             'transport'  => $this->request->has('transportadora','get') ? $this->request->get('transportadora','get') : null,
             'warehouse'  => $this->request->has('bodega','get') ? $this->request->get('bodega','get') : null,
+            'verification' => $this->request->has('verificacion','get') && $this->request->get('verificacion','get') === '1',
+            'no_exit_weighing' => $this->request->has('sin_pesaje_salida','get') && $this->request->get('sin_pesaje_salida','get') === '1',
             'weighing'   => $this->request->has('pesaje','get') ? $this->request->get('pesaje','get') : null,
             'weighing_from' => $this->request->has('pesaje_desde','get') && !$this->request->isEmpty('pesaje_desde','get') ? $this->request->get('pesaje_desde','get') : null,
             'weighing_to' => $this->request->has('pesaje_hasta','get') && !$this->request->isEmpty('pesaje_hasta','get') ? $this->request->get('pesaje_hasta','get') : null,
