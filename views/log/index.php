@@ -5,6 +5,7 @@
     <div class="card-header">
         <p class="m-0 lead">Bitácora de movimientos <span class="badge badge-primary badge-pill"><?= count($logs) ?></span></p>
         <small class="text-muted">Se muestran los últimos 500 movimientos que coinciden con el filtro.</small>
+        <small class="text-muted d-block">En movimientos anteriores, los nombres relacionados se consultan con sus valores actuales.</small>
     </div>
     <div class="card-body border-bottom">
         <form method="get" action="<?= url('bitacora') ?>" class="form-row align-items-end">
@@ -74,9 +75,9 @@
                     <td><span class="badge badge-<?= $badge ?>"><?= $actions[$log->accion] ?? $log->accion ?></span></td>
                     <td><span class="badge badge-secondary"><?= $tables[$log->tabla] ?? $log->tabla ?></span></td>
                     <td>
-                        <?= htmlspecialchars($log->detalle) ?> <span class="text-muted">#<?= $log->registro_id ?></span>
-                        <?php if( $log->cambios ): ?>
-                        <div class="text-muted" style="white-space: pre-line"><?= htmlspecialchars($log->cambios) ?></div>
+                        <?= $log->detalle_visible !== '' ? htmlspecialchars($log->detalle_visible) : '<span class="text-muted">Sin detalle</span>' ?>
+                        <?php if( $log->cambios_visible ): ?>
+                        <div class="text-muted" style="white-space: pre-line"><?= htmlspecialchars($log->cambios_visible) ?></div>
                         <?php endif ?>
                     </td>
                     <td>
