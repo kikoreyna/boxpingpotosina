@@ -81,9 +81,24 @@
                                 <td>
                                     <?php if( $entry->consolidado_id ): ?>
                                     <a href="<?= url('consolidados/mostrar/'.$entry->consolidado_id) ?>"><?= $entry->consolidado_numero ?></a>
+                                    <form action="<?= url('entradas/desconsolidar/'.$entry->id) ?>" method="post" class="d-inline ml-2"                                     onsubmit="return confirm('¿Retirar esta guia del consolidado?')">
+                                                                            <button class="btn btn-outline-danger py-0" style="font-size:.7rem">Retirar de consolidado</button>
+                                    </form>
                                     
+                                    <?php elseif( $consolidated_options ): ?>
+                                    <form action="<?= url('entradas/consolidar/'.$entry->id) ?>" method="post" class="form-inline">
+                                        <select name="consolidado" class="form-control form-control-sm mr-1" required>
+                                            <option value="" disabled selected>Consolidar en...</option>
+                                            <?php foreach($consolidated_options as $option): ?>
+                                            <option value="<?= $option->id ?>"><?= htmlspecialchars($option->numero) ?></option>
+                                            <?php endforeach ?>
+                                        </select>
+                                        <button class="btn btn-success btn-sm">Agregar</button>
+                                    </form>
+
                                     <?php else: ?>
                                     <span class="">Ninguno</span>
+                                    <small class="d-block text-muted">Sin consolidados abiertos para este cliente</small>
 
                                     <?php endif ?>
                                 </td>

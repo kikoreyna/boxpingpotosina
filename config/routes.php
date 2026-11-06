@@ -35,6 +35,8 @@ return [
     'entradas/mostrar/' => 'EntryController:show',
     'entradas/editar/' => 'EntryController:edit',   
     'entradas/actualizar/' => 'EntryController:update',
+    'entradas/consolidar/' => 'EntryController:assignConsolidated',
+    'entradas/desconsolidar/' => 'EntryController:removeConsolidated',
     'entradas/actualizar_observaciones/' => 'EntryController:updateObservations',  
     'entradas/imprimir/' => 'EntryController:toPrint',
     'entradas/advertencia_eliminar/' => 'EntryController:warningDelete',

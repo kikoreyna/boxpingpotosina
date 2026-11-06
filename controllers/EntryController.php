@@ -431,7 +431,17 @@ class EntryController extends \System\Core\Controller
         $open_tasks = (new \Models\Task)->openForEntry($entry->id);
         $documenters = is_admin() ? (new User)->where('tipo', '=', 'documentador') : [];
 
+        $consolidated_options = [];
+        if( is_null($entry->consolidado_id) )
+        {
+            $client_id = (int) $entry->cliente_id;
+            $consolidated_options = $model->raw(
+                "SELECT id, numero FROM consolidados
+                 WHERE cliente_id = {$client_id} AND cerrado_at IS NULL ORDER BY id DESC", true);
+        }
+
         return view('entry/show', compact(
+            'consolidated_options',
             'entry',
             'measures',
             'wayout',
@@ -441,6 +451,43 @@ class EntryController extends \System\Core\Controller
             'open_tasks',
             'documenters'
         ));
+    }
+
+    public function assignConsolidated($id = null)
+    {
+        $model = new Entry;
+        if( !($entry = $model->find($id)) )
+            return redirect('entradas');
+
+        $consolidated_id = (int) $this->request->get('consolidado');
+        $consolidated = (new Consolidated)->find($consolidated_id);
+
+        if( !is_null($entry->consolidado_id) )
+            $this->message(['warning', 'La guia ya pertenece a un consolidado']);
+        elseif( !$consolidated || (int) $consolidated->cliente_id !== (int) $entry->cliente_id || !is_null($consolidated->cerrado_at) )
+            $this->message(['danger', 'El consolidado debe estar abierto y pertenecer al mismo cliente de la guia']);
+        elseif( $model->update(['consolidado_id' => $consolidated->id], $entry->id) )
+            $this->message(['success', "Guia agregada al consolidado {$consolidated->numero}"]);
+        else
+            $this->message(['danger', 'Error al consolidar la guia']);
+
+        return redirect('entradas/mostrar/'.$entry->id);
+    }
+
+    public function removeConsolidated($id = null)
+    {
+        $model = new Entry;
+        if( !($entry = $model->find($id)) )
+            return redirect('entradas');
+
+        if( is_null($entry->consolidado_id) )
+            $this->message(['warning', 'La guia no pertenece a ningun consolidado']);
+        elseif( $model->update(['consolidado_id' => null], $entry->id) )
+            $this->message(['success', 'Guia retirada del consolidado']);
+        else
+            $this->message(['danger', 'Error al retirar la guia del consolidado']);
+
+        return redirect('entradas/mostrar/'.$entry->id);
     }
 
     public function edit($id = null)
