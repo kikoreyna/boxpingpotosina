@@ -67,7 +67,7 @@
         </div>
         <div class="custom-control custom-checkbox mb-1">
             <input type="checkbox" class="custom-control-input" id="filter-sin-salida" name="sin_salida" value="1" <?= $filters['no_wayout'] ? 'checked' : '' ?>>
-            <label class="custom-control-label small" for="filter-sin-salida">Verificadas con salida y sin rastreo</label>
+            <label class="custom-control-label small" for="filter-sin-salida">Verificadas sin rastreo</label>
         </div>
         <div class="custom-control custom-checkbox mb-3">
             <input type="checkbox" class="custom-control-input" id="filter-sin-pesaje-salida" name="sin_pesaje_salida" value="1" <?= $filters['no_exit_weighing'] ? 'checked' : '' ?>>
