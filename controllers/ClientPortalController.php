@@ -12,7 +12,13 @@ class ClientPortalController extends Controller {
         if( ! $client_id = $this->clientId() )
             return redirect('signout');
 
-        $search = trim( (string) $this->request->get('q') );
+        $search = $this->request->has('q', 'get') ? $this->request->get('q', 'get') : '';
+        if( !is_string($search) )
+        {
+            $this->message(['danger', 'El término de búsqueda no es válido']);
+            return redirect('cliente');
+        }
+        $search = trim($search);
         $db = new Entry;
 
         $consolidated = $db->raw(
