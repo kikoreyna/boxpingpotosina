@@ -173,17 +173,19 @@ trait WarehouseMexTrait
         
         $view = $coming !== 'salida' ? 'in' : 'out';
         
-        $info = $this->mex_entryInfo($entry->id);
+        $info = $this->mex_entryInfo($entry->id, $coming);
         return view("warehouse/mex/take_measures/{$view}", compact('entry','measure_entry_mex','measures_types','coming', 'go_home', 'info'));
     }
 
     // Datos de consulta para que bodega MEX identifique la guia al escanearla
-    private function mex_entryInfo($entry_id)
+    private function mex_entryInfo($entry_id, $coming)
     {
         $rows = (new Entry)->withRelations($entry_id);
         $full = array_pop($rows);
 
-        $previous_stages = ['cliente', 'bodega_usa'];
+        $previous_stages = $coming === 'salida'
+            ? ['cliente', 'bodega_mex_entrada']
+            : ['cliente', 'bodega_usa'];
         $measures = array_values(array_filter((new Measure)->withRelations($entry_id, 'entrada_id'), function ($m) use ($previous_stages) {
             return in_array($m->etapa, $previous_stages, true);
         }));

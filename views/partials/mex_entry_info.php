@@ -30,32 +30,6 @@ $join = function(array $parts) use ($h) { return $h(implode(', ', array_filter($
             </div>
         </div>
 
-        <span class="text-muted d-block">Peso y medidas registrados</span>
-        <?php if( $info['measures'] ): ?>
-        <div class="table-responsive">
-            <table class="table table-bordered table-sm m-0">
-                <thead class="thead-light">
-                    <tr><th>Etapa</th><th>Peso</th><th>Ancho</th><th>Alto</th><th>Prof.</th><th>Registró</th><th>Fecha</th></tr>
-                </thead>
-                <tbody>
-                <?php foreach($info['measures'] as $m): ?>
-                    <tr>
-                        <td class="text-capitalize"><?= str_replace('_', ' ', $m->etapa) ?></td>
-                        <td><?= $m->peso > 0 ? $h($m->peso.' '.$m->medida_peso) : '' ?></td>
-                        <td><?= $m->ancho > 0 ? $h($m->ancho.' '.$m->medida_volumen) : '' ?></td>
-                        <td><?= $m->altura > 0 ? $h($m->altura.' '.$m->medida_volumen) : '' ?></td>
-                        <td><?= $m->profundidad > 0 ? $h($m->profundidad.' '.$m->medida_volumen) : '' ?></td>
-                        <td><?= $h($m->usuario_nombre) ?></td>
-                        <td><?= $h($m->updated_at) ?></td>
-                    </tr>
-                <?php endforeach ?>
-                </tbody>
-            </table>
-        </div>
-        <?php else: ?>
-        <span class="text-muted">Sin peso ni medidas previas</span>
-        <?php endif ?>
-
         <?php else: ?>
         <div class="row mb-2">
             <div class="col-sm mb-2">
@@ -97,6 +71,32 @@ $join = function(array $parts) use ($h) { return $h(implode(', ', array_filter($
                 <?php endif ?>
             </div>
         </div>
+        <?php endif ?>
+
+        <span class="text-muted d-block">Peso y medidas registrados</span>
+        <?php if( $info['measures'] ): ?>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm m-0">
+                <thead class="thead-light">
+                    <tr><th>Etapa</th><th>Peso</th><th>Ancho</th><th>Alto</th><th>Prof.</th><th>Registró</th><th>Fecha</th></tr>
+                </thead>
+                <tbody>
+                <?php foreach($info['measures'] as $m): ?>
+                    <tr>
+                        <td class="text-capitalize"><?= $h(str_replace('_', ' ', $m->etapa)) ?></td>
+                        <td><?= $m->peso > 0 ? $h($m->peso.' '.$m->medida_peso) : '' ?></td>
+                        <td><?= $m->ancho > 0 ? $h($m->ancho.' '.$m->medida_volumen) : '' ?></td>
+                        <td><?= $m->altura > 0 ? $h($m->altura.' '.$m->medida_volumen) : '' ?></td>
+                        <td><?= $m->profundidad > 0 ? $h($m->profundidad.' '.$m->medida_volumen) : '' ?></td>
+                        <td><?= $h($m->usuario_nombre) ?></td>
+                        <td><?= $h($m->updated_at) ?></td>
+                    </tr>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+        <?php else: ?>
+        <span class="text-muted">Sin peso ni medidas previas</span>
         <?php endif ?>
 
     </div>
