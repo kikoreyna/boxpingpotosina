@@ -10,6 +10,7 @@ use Models\Client;
 use Models\Wayout;
 use Models\Driver;
 use Models\Car;
+use Models\Depot;
 use Models\Coder;
 use Models\Repacker;
 use Models\User;
@@ -410,6 +411,7 @@ class EntryController extends \System\Core\Controller
             return back();
 
         $entry = array_shift($entries);
+        $depot = $entry->bodega_mex_id ? (new Depot)->find($entry->bodega_mex_id) : null;
 
         $model_measure = new Measure;
         $measures = $model_measure->withRelations($entry->id, 'entrada_id');
@@ -443,6 +445,7 @@ class EntryController extends \System\Core\Controller
         return view('entry/show', compact(
             'consolidated_options',
             'entry',
+            'depot',
             'measures',
             'wayout',
             'dropOffStage',

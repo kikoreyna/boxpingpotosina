@@ -181,6 +181,18 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td class="bg-light text-secondary">Bodega MEX de entrada</td>
+                                <td>
+                                    <?php if( $depot ): ?>
+                                    <span><?= htmlspecialchars($depot->nombre, ENT_QUOTES, 'UTF-8') ?></span>
+                                    <?php elseif( $entry->bodega_mex_id ): ?>
+                                    <span class="text-muted">Bodega no encontrada</span>
+                                    <?php else: ?>
+                                    <span class="text-muted">No registrada</span>
+                                    <?php endif ?>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class="bg-light text-secondary">Codigo de reempacado</td>
                                 <td>
                                     <?php if( $entry->codigor_id ): ?>
