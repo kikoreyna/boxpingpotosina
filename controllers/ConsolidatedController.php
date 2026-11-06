@@ -34,6 +34,7 @@ class ConsolidatedController extends Controller {
 
             $entradas_sin_verificacion = $model_entry->getWithDestinatarioWhereConsolidado($c->id);
             $c->pendientes = count($entradas_sin_verificacion);
+            $c->sin_salida = $model_entry->countWithoutWayout($c->id);
         }
 
         // die( print_r($consolidated) );
@@ -155,6 +156,7 @@ class ConsolidatedController extends Controller {
             'transport'  => $this->request->has('transportadora','get') ? $this->request->get('transportadora','get') : null,
             'warehouse'  => $this->request->has('bodega','get') ? $this->request->get('bodega','get') : null,
             'verification' => $this->request->has('verificacion','get') && $this->request->get('verificacion','get') === '1',
+            'no_wayout' => $this->request->has('sin_salida','get') && $this->request->get('sin_salida','get') === '1',
             'no_exit_weighing' => $this->request->has('sin_pesaje_salida','get') && $this->request->get('sin_pesaje_salida','get') === '1',
             'weighing'   => $this->request->has('pesaje','get') ? $this->request->get('pesaje','get') : null,
             'weighing_from' => $this->request->has('pesaje_desde','get') && !$this->request->isEmpty('pesaje_desde','get') ? $this->request->get('pesaje_desde','get') : null,

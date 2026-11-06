@@ -196,6 +196,9 @@ class Entry extends Model
         if( !empty($filters['verification']) )
             array_push($query_filtered, " a.verificacion_at IS NULL");
 
+        if( !empty($filters['no_wayout']) )
+            array_push($query_filtered, " wo.id IS NULL");
+
         if( !empty($filters['no_exit_weighing']) )
             array_push($query_filtered, " NOT EXISTS (SELECT 1 FROM entrada_medidas AS m
                 WHERE m.entrada_id = e.id AND m.etapa = 'bodega_mex_salida' AND m.peso IS NOT NULL AND m.peso > 0)");
@@ -263,6 +266,15 @@ class Entry extends Model
     }
 
     //funcion nueva para pxd
+    public function countWithoutWayout($consolidated_id)
+    {
+        $id = (int) $consolidated_id;
+        $rows = $this->raw("SELECT COUNT(*) AS total FROM {$this->table} AS e
+                            WHERE e.consolidado_id = {$id}
+                            AND NOT EXISTS (SELECT 1 FROM salidas AS wo WHERE wo.entrada_id = e.id)", true);
+        return (int) $rows[0]->total;
+    }
+
     public function getWithDestinatarioWhereConsolidado($consolidado_id)
     {
         $query = "SELECT e.id, ed.verificacion_at 

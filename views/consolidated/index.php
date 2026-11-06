@@ -29,6 +29,7 @@
                                 <th class="border-0">EN BODEGA MEX</th>
                                 <th class="border-0">REEMPACADOS</th>
                                 <th class="border-0">PENDIENTES</th>
+                                <?php if( is_super_admin() ): ?><th class="border-0">SIN SALIDA</th><?php endif ?>
                                 <th class="border-0 d-none">SALIDA</th>
                                 
                             </tr>
@@ -48,7 +49,18 @@
                                 <td><?= $cs->entries_warehouse_usa ?></td>
                                 <td><?= $cs->entries_warehouse_mex ?></td>
                                 <td><?= $cs->entries_repackaged ?></td>
-                                <td><?= $cs->pendientes ?></td>
+                                <td>
+                                    <?php if( is_super_admin() && $cs->pendientes ): ?>
+                                    <a href="<?= url('consolidados/mostrar/'.$cs->id) ?>?verificacion=1"><?= $cs->pendientes ?></a>
+                                    <?php else: ?><?= $cs->pendientes ?><?php endif ?>
+                                </td>
+                                <?php if( is_super_admin() ): ?>
+                                <td>
+                                    <?php if( $cs->sin_salida ): ?>
+                                    <a href="<?= url('consolidados/mostrar/'.$cs->id) ?>?sin_salida=1"><?= $cs->sin_salida ?></a>
+                                    <?php else: ?>0<?php endif ?>
+                                </td>
+                                <?php endif ?>
                                 <td class="d-none"><?= $cs->salida ?? '' ?></td>
                             </tr>
                             <?php endforeach ?>

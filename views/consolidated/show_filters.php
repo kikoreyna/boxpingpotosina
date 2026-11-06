@@ -65,6 +65,10 @@
             <input type="checkbox" class="custom-control-input" id="filter-verificacion" name="verificacion" value="1" <?= $filters['verification'] ? 'checked' : '' ?>>
             <label class="custom-control-label small" for="filter-verificacion">En verificación (sin verificar)</label>
         </div>
+        <div class="custom-control custom-checkbox mb-1">
+            <input type="checkbox" class="custom-control-input" id="filter-sin-salida" name="sin_salida" value="1" <?= $filters['no_wayout'] ? 'checked' : '' ?>>
+            <label class="custom-control-label small" for="filter-sin-salida">Sin guía de salida</label>
+        </div>
         <div class="custom-control custom-checkbox mb-3">
             <input type="checkbox" class="custom-control-input" id="filter-sin-pesaje-salida" name="sin_pesaje_salida" value="1" <?= $filters['no_exit_weighing'] ? 'checked' : '' ?>>
             <label class="custom-control-label small" for="filter-sin-pesaje-salida">Sin pesaje de salida</label>
