@@ -82,8 +82,10 @@ class UserController extends Controller {
             'nombre'   => $this->request->get('nombre'),
             'tipo'     => $this->request->get('tipo'),
             'email'    => $this->request->get('email'),
-            'password' => Auth::hashToSign( $this->request->get('confirmar') ),
         ];
+
+        if( !$this->request->isEmpty('password') && !$this->request->isEmpty('confirmar') )
+            $data['password'] = Auth::hashToSign( $this->request->get('confirmar') );
 
         $msg = $model->update($data, $user->id)
              ? ['success', 'Usuario actualizado!']
