@@ -61,17 +61,26 @@
             </select>
         </div>
 
-        <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" class="custom-control-input" id="filter-verificacion" name="verificacion" value="1" <?= $filters['verification'] ? 'checked' : '' ?>>
-            <label class="custom-control-label small" for="filter-verificacion">En verificación (sin verificar)</label>
+        <div class="form-group">
+            <label class="text-secondary small m-0" for="filter-verificacion">En verificación (sin verificar)</label>
+            <select name="verificacion" id="filter-verificacion" class="form-control form-control-sm">
+                <option value="" <?= !$filters['verification'] ? 'selected' : '' ?>>Todas</option>
+                <option value="1" <?= $filters['verification'] ? 'selected' : '' ?>>Solo en verificación</option>
+            </select>
         </div>
-        <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" class="custom-control-input" id="filter-sin-salida" name="sin_salida" value="1" <?= $filters['no_wayout'] ? 'checked' : '' ?>>
-            <label class="custom-control-label small" for="filter-sin-salida">Verificadas sin rastreo</label>
+        <div class="form-group">
+            <label class="text-secondary small m-0" for="filter-sin-salida">Verificadas sin rastreo</label>
+            <select name="sin_salida" id="filter-sin-salida" class="form-control form-control-sm">
+                <option value="" <?= !$filters['no_wayout'] ? 'selected' : '' ?>>Todas</option>
+                <option value="1" <?= $filters['no_wayout'] ? 'selected' : '' ?>>Solo verificadas sin rastreo</option>
+            </select>
         </div>
-        <div class="custom-control custom-checkbox mb-3">
-            <input type="checkbox" class="custom-control-input" id="filter-sin-pesaje-salida" name="sin_pesaje_salida" value="1" <?= $filters['no_exit_weighing'] ? 'checked' : '' ?>>
-            <label class="custom-control-label small" for="filter-sin-pesaje-salida">Sin pesaje de salida</label>
+        <div class="form-group">
+            <label class="text-secondary small m-0" for="filter-sin-pesaje-salida">Sin pesaje de salida</label>
+            <select name="sin_pesaje_salida" id="filter-sin-pesaje-salida" class="form-control form-control-sm">
+                <option value="" <?= !$filters['no_exit_weighing'] ? 'selected' : '' ?>>Todas</option>
+                <option value="1" <?= $filters['no_exit_weighing'] ? 'selected' : '' ?>>Verificadas sin pesaje de salida</option>
+            </select>
         </div>
 
         <hr>

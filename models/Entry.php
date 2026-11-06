@@ -200,7 +200,7 @@ class Entry extends Model
             array_push($query_filtered, $this->withoutTrackingCondition());
 
         if( !empty($filters['no_exit_weighing']) )
-            array_push($query_filtered, " NOT EXISTS (SELECT 1 FROM entrada_medidas AS m
+            array_push($query_filtered, " a.verificacion_at IS NOT NULL AND NOT EXISTS (SELECT 1 FROM entrada_medidas AS m
                 WHERE m.entrada_id = e.id AND m.etapa = 'bodega_mex_salida' AND m.peso IS NOT NULL AND m.peso > 0)");
 
         $filter_string = " WHERE e.consolidado_id = {$consolidated_id} ";
