@@ -9,6 +9,7 @@ return [
     'CrossingController'     => 'CrossingLayer',
     'DashboardController'    => 'DashboardLayer',
     'EntryController'        => 'EntryLayer',
+    'LogController'          => 'LogLayer',
     'TransportController'    => 'TransportLayer',
     'RepackageController'    => 'RepackageLayer',
     'RepackagedController'   => 'RepackagedLayer',

@@ -172,11 +172,16 @@ abstract class Model
         $this->query = $this->getQueryInsert($data);
         $stmt = $this->pdo->prepare( $this->query );
         if( $stmt->execute( array_values($data) ) )
-            return $this->lastInsert();
+        {
+            $id = $this->lastInsert();
+            if( \Models\ActivityLog::auditsCreation($this->table) )
+                \Models\ActivityLog::record('creacion', $this->table, $id, $data);
+            return $id;
+        }
         
         return false;
     }
-
+  
     public function update(array $data, $where, $justone = true)
     {
         if( $this->hasTimestamps() )
@@ -219,17 +224,28 @@ abstract class Model
         if( $justone )
             $this->query .= " LIMIT 1";
 
+        $before_rows = $this->auditSnapshot($this->query, $justone);
             
         $stmt = $this->pdo->prepare( $this->query );
 
         if( $stmt->execute( array_values($data) ) )
-            return $stmt->rowCount();
+        {
+            $affected = $stmt->rowCount();
+            if( $affected )
+            {
+                foreach($before_rows as $before)
+                    \Models\ActivityLog::recordUpdate($this->table, $before, $data);
+            }
+            return $affected;
+        }
         
         return false;
     }
     
     public function delete($id, $justone = true)
     {
+        $before = $this->auditRow($id);
+
         $this->query = "DELETE FROM {$this->table} WHERE id = :id";
 
         if( $justone )
@@ -238,13 +254,20 @@ abstract class Model
         $stmt = $this->pdo->prepare( $this->query );
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         if( $stmt->execute() ) 
-            return $stmt->rowCount();
+        {
+            $affected = $stmt->rowCount();
+            if( $affected && $before )
+                \Models\ActivityLog::recordDelete($this->table, $before);
+            return $affected;
+        }
         
         return false;
     }
 
     public function deleteSoft($id)
     {
+        $before = $this->auditRow($id);
+
         $this->query = "UPDATE {$this->table} 
                         SET deleted_at = :deleted 
                         WHERE id = :id LIMIT 1";
@@ -252,9 +275,50 @@ abstract class Model
         $stmt->bindValue(':deleted', DATETIME_NOW);
         $stmt->bindValue(':id', $id);
         if( $stmt->execute() )
-            return $stmt->rowCount();
+        {
+            $affected = $stmt->rowCount();
+            if( $affected && $before )
+                \Models\ActivityLog::recordDelete($this->table, $before, 'Baja lógica (deleted_at)');
+            return $affected;
+        }
         
         return false;
+    }
+
+    // Filas previas a un UPDATE, solo si la tabla está auditada
+    private function auditSnapshot($update_query, $justone)
+    {
+        if( !\Models\ActivityLog::audits($this->table) || ($pos = strpos($update_query, ' WHERE ')) === false )
+            return [];
+
+        try
+        {
+            $where = preg_replace('/ LIMIT 1$/', '', substr($update_query, $pos));
+            $stmt = $this->pdo->query("SELECT * FROM {$this->table}{$where} LIMIT " . ($justone ? 1 : 100));
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(\Throwable $e)
+        {
+            return [];
+        }
+    }
+
+    private function auditRow($id)
+    {
+        if( !\Models\ActivityLog::audits($this->table) )
+            return null;
+
+        try
+        {
+            $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id LIMIT 1");
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        }
+        catch(\Throwable $e)
+        {
+            return null;
+        }
     }
     
     public function trash()

@@ -43,6 +43,9 @@
       <li class="nav-item">
         <a href="<?= url('usuarios') ?>" class="nav-link">Usuarios</a>
       </li>
+      <li class="nav-item">
+        <a href="<?= url('bitacora') ?>" class="nav-link">Bitácora</a>
+      </li>
       <?php endif ?>
 
       <li class="nav-item">

@@ -48,7 +48,11 @@ class Client extends Model
         $stmt->bindValue(':notas', $data['notas']);
         
         if( $result = $stmt->execute() )
-            return $this->pdo->lastInsertId();
+        {
+            $id = $this->pdo->lastInsertId();
+            \Models\ActivityLog::record('creacion', $this->table, $id, $data);
+            return $id;
+        }
         
         return $result;
     }

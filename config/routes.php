@@ -111,6 +111,9 @@ return [
     'vehiculos/borrar/' => 'CarController:erase',
     'vehiculos/eliminar/' => 'CarController:deleteSoft',
     
+    // Bitácora
+    'bitacora' => 'LogController:index',
+
     // Tareas
     'tareas' => 'TaskController:index',
     'tareas/guardar' => 'TaskController:store',

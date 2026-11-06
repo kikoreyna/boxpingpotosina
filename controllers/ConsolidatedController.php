@@ -253,7 +253,10 @@ class ConsolidatedController extends Controller {
         }
 
         $model_entry = new Entry;
+        $entries_deleted = $model_entry->raw("SELECT id, numero FROM entradas WHERE consolidado_id = {$consolidated->id}", true);
         $result = $model_entry->raw("DELETE FROM entradas WHERE consolidado_id = {$consolidated->id}");
+        foreach($entries_deleted as $entry_deleted)
+            \Models\ActivityLog::recordDelete('entradas', $entry_deleted, "Eliminada junto con el consolidado {$consolidated->numero}");
 
         $this->message(['success', "Consolidado {$consolidated->numero} eliminado"]);
         return redirect('consolidados');
