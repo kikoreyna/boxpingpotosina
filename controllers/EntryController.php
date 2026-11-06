@@ -25,6 +25,24 @@ class EntryController extends \System\Core\Controller
 {
     public function index()
     {
+        if ($this->request->has('reempacador', 'get') && is_numeric($this->request->get('reempacador', 'get'))) {
+            $dateFrom = $this->request->has('desde', 'get') ? $this->request->get('desde', 'get') : date('Y-m-d');
+            $dateTo = $this->request->has('hasta', 'get') ? $this->request->get('hasta', 'get') : date('Y-m-d');
+            $timeFrom = $this->request->has('hora_desde', 'get') ? $this->request->get('hora_desde', 'get') : '00:00';
+            $timeTo = $this->request->has('hora_hasta', 'get') ? $this->request->get('hora_hasta', 'get') : '23:59';
+
+            if (
+                !$this->isValidReportDate($dateFrom)
+                || !$this->isValidReportDate($dateTo)
+                || $dateFrom > $dateTo
+                || !$this->isValidReportTime($timeFrom)
+                || !$this->isValidReportTime($timeTo)
+            ) {
+                $this->message(['warning', 'Revisa el rango de fechas y horas del reporte']);
+                return back();
+            }
+        }
+
         $filters = $this->getFilters();
         $inputs  = $this->getInputs(new Client, $filters);
 
@@ -80,10 +98,32 @@ class EntryController extends \System\Core\Controller
             'limit'        => $this->request->has('limite', 'get')       ? $this->request->get('limite','get')       : '1200',
             'driver'       => $this->request->has('conductor', 'get') && is_numeric($this->request->get('conductor', 'get')) ? $this->request->get('conductor','get') : null,
             'repacker'     => $this->request->has('reempacador', 'get') && is_numeric($this->request->get('reempacador', 'get')) ? $this->request->get('reempacador','get') : null,
+            'repacked_from_time' => $this->request->has('hora_desde', 'get') ? $this->request->get('hora_desde', 'get') : '00:00',
+            'repacked_to_time' => $this->request->has('hora_hasta', 'get') ? $this->request->get('hora_hasta', 'get') : '23:59',
             'weighing'      => $this->request->has('pesaje','get') && !$this->request->isEmpty('pesaje','get') ? $this->request->get('pesaje','get') : null,
             'weighing_from' => $this->request->has('pesaje_desde','get') && !$this->request->isEmpty('pesaje_desde','get') ? $this->request->get('pesaje_desde','get') : null,
             'weighing_to'   => $this->request->has('pesaje_hasta','get') && !$this->request->isEmpty('pesaje_hasta','get') ? $this->request->get('pesaje_hasta','get') : null,
         ];
+    }
+
+    private function isValidReportDate($value)
+    {
+        if (!is_string($value) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+            return false;
+        }
+
+        $date = \DateTime::createFromFormat('!Y-m-d', $value);
+        return $date && $date->format('Y-m-d') === $value;
+    }
+
+    private function isValidReportTime($value)
+    {
+        if (!is_string($value) || !preg_match('/^\d{2}:\d{2}$/', $value)) {
+            return false;
+        }
+
+        $time = \DateTime::createFromFormat('!H:i', $value);
+        return $time && $time->format('H:i') === $value;
     }
     
     private function getInputs(Client $model_client, $filters)

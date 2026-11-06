@@ -42,6 +42,18 @@
                         </div>
                         <input type="date" name="hasta" value="<?= $dates['hasta'] ?>" class="form-control" placeholder="Hasta" aria-label="Hasta" aria-describedby="hasta-addon">
                     </div>
+                    <div class="col-sm input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="hora-desde-addon">Hora desde</span>
+                        </div>
+                        <input type="time" name="hora_desde" value="<?= $dates['hora_desde'] ?>" class="form-control" aria-label="Hora desde" aria-describedby="hora-desde-addon">
+                    </div>
+                    <div class="col-sm input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="hora-hasta-addon">Hora hasta</span>
+                        </div>
+                        <input type="time" name="hora_hasta" value="<?= $dates['hora_hasta'] ?>" class="form-control" aria-label="Hora hasta" aria-describedby="hora-hasta-addon">
+                    </div>
                     <div class="col-sm col-sm-2">
                         <button class="btn btn-info btn-block" type="submit">Generar</button>
                     </div>
@@ -62,7 +74,7 @@
                             <td class="pl-3"><?= $item['name'] ?></td>
                             <td class="pr-3">
                                 <?php if( $item['entries_count'] ): ?>
-                                <a href="<?= url('entradas', ['desde' => $dates['desde'], 'hasta' => $dates['hasta'], 'reempacador' => $item['id']]) ?>" target="_blank"><?= $item['entries_count'] ?></a>
+                                <a href="<?= url('entradas', ['desde' => $dates['desde'], 'hasta' => $dates['hasta'], 'hora_desde' => $dates['hora_desde'], 'hora_hasta' => $dates['hora_hasta'], 'reempacador' => $item['id']]) ?>" target="_blank"><?= $item['entries_count'] ?></a>
                                 <?php else: ?>
                                 <span>0</span>
                                 <?php endif ?>

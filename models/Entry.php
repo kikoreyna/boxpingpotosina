@@ -43,6 +43,15 @@ class Entry extends Model
         }
 
         $concat = " WHERE DATE(e.{$column_at}) BETWEEN '{$filters['from']}' AND '{$filters['to']}' {$query_id} ";
+        if( !is_null($filters['repacker']) )
+        {
+            $time_from = isset($filters['repacked_from_time']) ? $filters['repacked_from_time'] : '00:00';
+            $time_to = isset($filters['repacked_to_time']) ? $filters['repacked_to_time'] : '23:59';
+            $time_filter = $time_from <= $time_to
+                ? "TIME(e.reempacado_at) BETWEEN '{$time_from}:00' AND '{$time_to}:59'"
+                : "(TIME(e.reempacado_at) >= '{$time_from}:00' OR TIME(e.reempacado_at) <= '{$time_to}:59')";
+            $concat .= " AND {$time_filter} ";
+        }
 
         if( !is_null($filters['client']) && $filters['client'] <> 'todos' )
         {
@@ -80,7 +89,10 @@ class Entry extends Model
             $concat .= " AND e.{$filter} IS NOT NULL";
         }
 
-        $concat .= " GROUP BY e.id ORDER BY e.id {$order} ";
+        $order_by = !is_null($filters['repacker'])
+            ? 'e.reempacado_at ASC, e.id ASC'
+            : "e.id {$order}";
+        $concat .= " GROUP BY e.id ORDER BY {$order_by} ";
 
         if( is_numeric($filters['limit']) )
             $concat .= " LIMIT {$filters['limit']} ";
