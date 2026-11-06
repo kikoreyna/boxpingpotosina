@@ -91,6 +91,8 @@
                     <a href="<?= url("consolidados/imprimir/{$consolidated->id}") ?>" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="left" title="Imprimir labels">
                         <i class="fas fa-print"></i>
                     </a>
+                    <a href="<?= htmlspecialchars(url("consolidados/imprimir_filtrado/{$consolidated->id}").$filter_query, ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-primary btn-sm" target="_blank">Imprimir etiquetas filtradas</a>
+                    <a href="<?= htmlspecialchars(url("consolidados/exportar_filtrado/{$consolidated->id}").$filter_query, ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-success btn-sm">Excel filtrado</a>
                     <a href="<?= url('entradas/crear/'.$consolidated->id) ?>" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Agregar entrada(s)">
                         <i class="fas fa-plus"></i>
                     </a>
@@ -102,6 +104,7 @@
                     <span>Entradas</span>
                     <span class="badge badge-info badge-pill"><?= $entries_filtered_count ?></span>
                 </p>
+                <small class="text-muted">Las opciones filtradas usan los filtros aplicados. Presiona «Filtrar entradas» después de cambiarlos.</small>
             </div>
             <?php $template->insert('entry/template_table_entries', compact('entries')) ?>
         </div>

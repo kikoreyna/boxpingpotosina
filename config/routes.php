@@ -26,6 +26,8 @@ return [
     'consolidados/advertencia_eliminar/' => 'ConsolidatedController:warningDelete',
     'consolidados/eliminar' => 'ConsolidatedController:delete',
     'consolidados/imprimir/' => 'ConsolidatedController:toPrint',
+    'consolidados/imprimir_filtrado/' => 'ConsolidatedController:printFiltered',
+    'consolidados/exportar_filtrado/' => 'ConsolidatedController:exportFiltered',
 
     // Entradas
     'entradas' => 'EntryController:index',
