@@ -1,0 +1,13 @@
+/vendor/
+/logs/
+/webstats/
+/notes.txt
+/.env
+/.env.*
+!/.env.example
+/config/database.local.php
+*.log
+*.tmp
+*.cache
+Thumbs.db
+.DS_Store
